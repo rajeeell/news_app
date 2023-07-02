@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:intl/intl.dart';
 
-class GlobalMethods{
-  static Future<void> errorDialog({required String errorMessage, required BuildContext context}) async {
+class GlobalMethods {
+  static String formattedDateText(String publishedAt) {
+    final parsedData = DateTime.parse(publishedAt);
+
+    String formattedDate =
+        DateFormat("yyyy-MM-dd hh:mm:sss").format(parsedData);
+    DateTime publishedDate =
+        DateFormat("yyyy-MM-dd hh:mm:sss").parse(formattedDate);
+
+    return "${publishedDate.day}/${publishedDate.month}/${publishedDate.year} ON ${publishedDate.hour}:${publishedDate.minute}";
+    
+  }
+
+  static Future<void> errorDialog(
+      {required String errorMessage, required BuildContext context}) async {
     await showDialog(
         context: context,
         builder: (context) {

@@ -14,7 +14,6 @@ import '../inner_screens/search_screen.dart';
 import '../models/news_model.dart';
 import '../providers/theme_provider.dart';
 import '../services/utils.dart';
-
 import '../widgets/articles_widgete.dart';
 import '../widgets/drawer_widget.dart';
 import '../widgets/empty_screen.dart';
@@ -36,16 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
   String sortBy = SortByEnum.publishedAt.name;
 
-  @override
-  void didChangeDependencies() {
-    getNewsList();
-    super.didChangeDependencies();
-  }
 
-  Future<List<NewsModel>> getNewsList() async {
-    List<NewsModel> newsList = await NewsApiServices.getAllNews();
-    return newsList;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             FutureBuilder<List<NewsModel>>(
-                future: getNewsList(),
+                future:  NewsAPiServices.getAllNews(),
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return newsType == NewsType.allNews
@@ -233,7 +223,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 return ArticlesWidget(
                                   imageUrl: snapshot.data![index].urlToImage,
                                   dateToShow: snapshot.data![index].dateToShow,
-                                  readingTime: snapshot.data![index].readingTimeText,
+                                  readingTime:
+                                      snapshot.data![index].readingTimeText,
                                   title: snapshot.data![index].title,
                                   url: snapshot.data![index].url,
                                 );
@@ -249,7 +240,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             viewportFraction: 0.9,
                             itemCount: 5,
                             itemBuilder: (context, index) {
-                              return TopTrendingWidget(url: snapshot.data![index].url,);
+                              return TopTrendingWidget(
+                                url: snapshot.data![index].url,
+                              );
                             },
                           ),
                         );
