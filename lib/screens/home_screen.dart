@@ -6,6 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app/providers/news_provider.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -35,12 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPageIndex = 0;
   String sortBy = SortByEnum.publishedAt.name;
 
-
-
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -187,12 +188,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: DropdownButton(
                             value: sortBy,
                             items: dropDownItems,
-                            onChanged: (String? value) {}),
+                            onChanged: (String? value) {
+                              setState(() {
+                                sortBy = value!;
+                              });
+                            }),
                       ),
                     ),
                   ),
+
             FutureBuilder<List<NewsModel>>(
-                future:  NewsAPiServices.getAllNews(),
+                future: newsType == NewsType.topTrending
+                    ? newsProvider.fetchTopHeadlines()
+                    : newsProvider.fetchAllNews(
+                        pageIndex: currentPageIndex + 1, sortBy: sortBy),
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return newsType == NewsType.allNews
@@ -220,15 +229,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ListView.builder(
                               itemCount: snapshot.data!.length,
                               itemBuilder: (ctx, index) {
-                                return ArticlesWidget(
-                                  imageUrl: snapshot.data![index].urlToImage,
-                                  dateToShow: snapshot.data![index].dateToShow,
-                                  readingTime:
-                                      snapshot.data![index].readingTimeText,
-                                  title: snapshot.data![index].title,
-                                  url: snapshot.data![index].url,
+                                return ChangeNotifierProvider.value(
+                                  value: snapshot.data![index],
+                                  child: const ArticlesWidget(
+                                      //   imageUrl: snapshot.data![index].urlToImage,
+                                      //   dateToShow: snapshot.data![index].dateToShow,
+                                      //   readingTime:
+                                      //       snapshot.data![index].readingTimeText,
+                                      //   title: snapshot.data![index].title,
+                                      //   url: snapshot.data![index].url,
+                                      ),
                                 );
-                              }),
+                              }
+                              ),
                         )
                       : SizedBox(
                           height: size.height * 0.6,
@@ -240,8 +253,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             viewportFraction: 0.9,
                             itemCount: 5,
                             itemBuilder: (context, index) {
-                              return TopTrendingWidget(
-                                url: snapshot.data![index].url,
+                              return ChangeNotifierProvider.value(
+                                value: snapshot.data![index],
+                                child: TopTrendingWidget(
+
+                                    // url: snapshot.data![index].url,
+                                    ),
                               );
                             },
                           ),

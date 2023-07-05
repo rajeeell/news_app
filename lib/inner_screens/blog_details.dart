@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../consts/vars.dart';
+import '../models/bookmarks_model.dart';
+import '../providers/bookmarks_provider.dart';
+import '../providers/news_provider.dart';
+import '../services/global_methods.dart';
 import '../services/utils.dart';
 import '../widgets/vertical_spacing.dart';
 
@@ -16,10 +20,35 @@ class NewsDetailsScreen extends StatefulWidget {
 }
 
 class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
+  bool isInBookmark = false;
+  String? publishedAt;
+  dynamic currBookmark;
+  @override
+  void didChangeDependencies() {
+    publishedAt = ModalRoute.of(context)!.settings.arguments as String;
+    final List<BookmarksModel> bookmarkList =
+        Provider.of<BookmarksProvider>(context).getBookmarkList;
+    if (bookmarkList.isEmpty) {
+      return;
+    }
+    currBookmark = bookmarkList
+        .where((element) => element.publishedAt == publishedAt)
+        .toList();
+    if (currBookmark.isEmpty) {
+      isInBookmark = false;
+    } else {
+      isInBookmark = true;
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsProvider>(context);
+    final bookmarksProvider = Provider.of<BookmarksProvider>(context);
 
+    final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: color),
@@ -27,7 +56,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
         title: Text(
-          "By Author",
+          "By ${currentNews.authorName}",
           textAlign: TextAlign.center,
           style: TextStyle(color: color),
         ),
@@ -49,7 +78,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Title" * 10,
+                  currentNews.title,
                   textAlign: TextAlign.justify,
                   style: titleTextStyle,
                 ),
@@ -57,12 +86,12 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 Row(
                   children: [
                     Text(
-                      "20/20/2015",
+                      currentNews.dateToShow,
                       style: smallTextStyle,
                     ),
                     const Spacer(),
                     Text(
-                      "readingTimeText",
+                      currentNews.readingTimeText,
                       style: smallTextStyle,
                     ),
                   ],
@@ -77,9 +106,12 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 25),
-                  child: 
-                    Image.network(
-                      "https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1"),
+                  child: Hero(
+                    tag: currentNews.publishedAt,
+                    child: Image.network(
+                                            currentNews.urlToImage,
+                    ),
+                  ),
                 ),
               ),
               Positioned(
@@ -90,7 +122,15 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          try {
+                            await Share.share(currentNews.url,
+                                subject: 'Look what I made!');
+                          } catch (err) {
+                            GlobalMethods.errorDialog(
+                                errorMessage: err.toString(), context: context);
+                          }
+                        },
                         child: Card(
                           elevation: 10,
                           shape: const CircleBorder(),
@@ -105,16 +145,27 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          if (isInBookmark) {
+                            await bookmarksProvider.deleteBookmark(key: currBookmark[0].bookmarkKey);
+                          } else {
+                            await bookmarksProvider.addToBookmark(
+                              newsModel: currentNews,
+                            );
+                          }
+                          await bookmarksProvider.fetchBookmarks();
+                        },
                         child: Card(
                           elevation: 10,
                           shape: const CircleBorder(),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
-                              IconlyLight.bookmark,
+                              isInBookmark
+                                  ? IconlyBold.bookmark
+                                  : IconlyLight.bookmark,
                               size: 28,
-                              color: color,
+                              color: isInBookmark ? Colors.green : color,
                             ),
                           ),
                         ),
@@ -138,7 +189,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 ),
                 const VerticalSpacing(10),
                 TextContent(
-                  label: "description " * 12,
+                  label: currentNews.description,
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
                 ),
@@ -154,7 +205,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                   10,
                 ),
                 TextContent(
-                  label: "content " * 12,
+                  label: currentNews.content,
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
                 ),

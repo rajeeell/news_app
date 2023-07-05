@@ -2,18 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:news_app/consts/vars.dart';
 import 'package:news_app/inner_screens/blog_details.dart';
 import 'package:news_app/inner_screens/news_details_webview.dart';
+import 'package:news_app/models/bookmarks_model.dart';
 import 'package:news_app/services/utils.dart';
 import 'package:news_app/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 import '../inner_screens/bookmarks_screen.dart';
+import '../models/news_model.dart';
 
 class ArticlesWidget extends StatelessWidget {
-  const ArticlesWidget({super.key, required this.imageUrl, required this.title, required this.url, required this.dateToShow, required this.readingTime});
-  final String imageUrl, title, url, dateToShow, readingTime;
+  const ArticlesWidget({
+    super.key, this.isBookmark=false,
+  });
+  //final String imageUrl, title, url, dateToShow, readingTime;
+  final bool isBookmark;
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
+    dynamic newsModelProvider = isBookmark?   //using dynamic instead of final
+    Provider.of<BookmarksModel>(context):
+    Provider.of<NewsModel>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -22,7 +31,8 @@ class ArticlesWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, NewsDetailsScreen.routeName);
+              Navigator.pushNamed(context, NewsDetailsScreen.routeName,
+                  arguments: newsModelProvider.publishedAt);
             },
             child: Stack(children: [
               Container(
@@ -50,8 +60,10 @@ class ArticlesWidget extends StatelessWidget {
                       child: Container(
                         height: size.height * 0.12,
                         width: size.height * 0.12,
-                        child: Image.network(
-                            imageUrl),
+                        child: Hero(
+                          tag: newsModelProvider.publishedAt,
+                          child: Image.network(newsModelProvider.urlToImage),
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -63,7 +75,7 @@ class ArticlesWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            title,
+                            newsModelProvider.title,
                             textAlign: TextAlign.justify,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -73,7 +85,7 @@ class ArticlesWidget extends StatelessWidget {
                           Align(
                             alignment: Alignment.topRight,
                             child: Text(
-                              '🕒 $readingTime',
+                              '🕒 ${newsModelProvider.readingTimeText}',
                               style: smallTextStyle,
                             ),
                           ),
@@ -86,7 +98,9 @@ class ArticlesWidget extends StatelessWidget {
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.rightToLeft,
-                                          child: NewsDetailsWebView(url: url,),
+                                          child: NewsDetailsWebView(
+                                            url: newsModelProvider.url,
+                                          ),
                                           inheritTheme: true,
                                           ctx: context),
                                     );
@@ -97,7 +111,7 @@ class ArticlesWidget extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  dateToShow,
+                                  newsModelProvider.dateToShow,
                                   maxLines: 1,
                                   style: smallTextStyle,
                                 )

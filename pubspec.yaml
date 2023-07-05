@@ -50,10 +50,46 @@ dependencies:
   http: ^1.1.0
   reading_time: ^2.0.0
   intl: ^0.18.1
+  flutter_native_splash: ^2.3.1
   
 
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
+
+# flutter_native_splash-development.yaml
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/news.png
+  
+  color_dark: "#121212"
+  image_dark: assets/news.png
+  
+
+  android_12:
+    image: assets/news.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/news.png
+    icon_background_color_dark: "#121212"
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/news.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/news.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/images/news.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/news.png"
   flutter_test:
     sdk: flutter
 

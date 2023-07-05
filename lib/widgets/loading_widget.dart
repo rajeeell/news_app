@@ -1,9 +1,11 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/consts/vars.dart';
+import 'package:news_app/providers/bookmarks_provider.dart';
 import 'package:news_app/services/utils.dart';
 import 'package:news_app/widgets/top_tending.dart';
 import 'package:news_app/widgets/vertical_spacing.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LoadingWidget extends StatefulWidget {
@@ -22,7 +24,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     baseShimmerColor = utils.baseShimmerColor;
     highlistShimmerColor = utils.baseShimmerColor;
     widgetShimmerColor = utils.widgetShimmerColor;
-
+    Provider.of<BookmarksProvider>(context, listen: false).fetchBookmarks();
     super.didChangeDependencies();
   }
 
@@ -64,7 +66,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   }
 }
 
-  class TopTrendingLoadingWidget extends StatelessWidget {
+class TopTrendingLoadingWidget extends StatelessWidget {
   const TopTrendingLoadingWidget({
     Key? key,
     required this.baseShimmerColor,
@@ -140,7 +142,6 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   }
 }
 
-
 class ArticlesShimmerEffectWidget extends StatelessWidget {
   const ArticlesShimmerEffectWidget({
     super.key,
@@ -148,7 +149,7 @@ class ArticlesShimmerEffectWidget extends StatelessWidget {
     required this.highlightShimmerColor,
     required this.widgetShimmerColor,
     required this.size,
-    required this.borderRadius, 
+    required this.borderRadius,
   });
 
   final Color baseShimmerColor;
