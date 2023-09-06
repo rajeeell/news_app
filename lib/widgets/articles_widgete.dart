@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/consts/vars.dart';
-import 'package:news_app/inner_screens/blog_details.dart';
-import 'package:news_app/inner_screens/news_details_webview.dart';
-import 'package:news_app/models/bookmarks_model.dart';
-import 'package:news_app/services/utils.dart';
-import 'package:news_app/widgets/vertical_spacing.dart';
+import 'package:newzy/consts/vars.dart';
+import 'package:newzy/inner_screens/blog_details.dart';
+import 'package:newzy/inner_screens/news_details_webview.dart';
+import 'package:newzy/models/bookmarks_model.dart';
+import 'package:newzy/services/utils.dart';
+import 'package:newzy/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 

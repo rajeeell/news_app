@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/provider/dark_theme_provider.dart';
+import 'package:newzy/provider/dark_theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class Utils {

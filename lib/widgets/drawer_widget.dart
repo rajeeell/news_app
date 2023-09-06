@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:news_app/inner_screens/bookmarks_screen.dart';
-import 'package:news_app/screens/home_screen.dart';
-import 'package:news_app/widgets/vertical_spacing.dart';
+import 'package:newzy/inner_screens/bookmarks_screen.dart';
+import 'package:newzy/screens/home_screen.dart';
+import 'package:newzy/widgets/vertical_spacing.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +42,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   const VerticalSpacing(20),
                   Flexible(
                     child: Text(
-                      'News App',
+                      'Newzy',
                       style: GoogleFonts.lobster(
                         textStyle:
                             const TextStyle(fontSize: 20, letterSpacing: 0.6),

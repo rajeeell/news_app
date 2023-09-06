@@ -3,10 +3,10 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:news_app/consts/vars.dart';
-import 'package:news_app/models/news_model.dart';
-import 'package:news_app/widgets/empty_screen.dart';
-import 'package:news_app/widgets/vertical_spacing.dart';
+import 'package:newzy/consts/vars.dart';
+import 'package:newzy/models/news_model.dart';
+import 'package:newzy/widgets/empty_screen.dart';
+import 'package:newzy/widgets/vertical_spacing.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/news_provider.dart';

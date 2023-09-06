@@ -6,7 +6,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:news_app/providers/news_provider.dart';
+import 'package:newzy/providers/news_provider.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           centerTitle: true,
           title: Text(
-            'News app',
+            'Newzy',
             style: GoogleFonts.lobster(
                 textStyle:
                     TextStyle(color: color, fontSize: 20, letterSpacing: 0.6)),
@@ -240,8 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       //   url: snapshot.data![index].url,
                                       ),
                                 );
-                              }
-                              ),
+                              }),
                         )
                       : SizedBox(
                           height: size.height * 0.6,

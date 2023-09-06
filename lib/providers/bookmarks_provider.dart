@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:news_app/models/news_model.dart';
+import 'package:newzy/models/news_model.dart';
 
 import '../consts/api_const.dart';
 

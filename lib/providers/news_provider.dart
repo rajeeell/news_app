@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/models/news_model.dart';
-import 'package:news_app/screens/news_api.dart';
+import 'package:newzy/models/news_model.dart';
+import 'package:newzy/screens/news_api.dart';
 
 class NewsProvider with ChangeNotifier {
   List<NewsModel> newsList = [];

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:news_app/models/bookmarks_model.dart';
+import 'package:newzy/models/bookmarks_model.dart';
 
 import '../consts/api_const.dart';
 import '../models/news_model.dart';

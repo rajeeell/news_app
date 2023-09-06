@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/services/dark_theme_prefs.dart';
+import 'package:newzy/services/dark_theme_prefs.dart';
 class ThemeProvider with ChangeNotifier {
   ThemePreferences darkThemePreferences = ThemePreferences();
   bool _darkTheme = false;

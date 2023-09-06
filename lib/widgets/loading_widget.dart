@@ -1,10 +1,10 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/consts/vars.dart';
-import 'package:news_app/providers/bookmarks_provider.dart';
-import 'package:news_app/services/utils.dart';
-import 'package:news_app/widgets/top_tending.dart';
-import 'package:news_app/widgets/vertical_spacing.dart';
+import 'package:newzy/consts/vars.dart';
+import 'package:newzy/providers/bookmarks_provider.dart';
+import 'package:newzy/services/utils.dart';
+import 'package:newzy/widgets/top_tending.dart';
+import 'package:newzy/widgets/vertical_spacing.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 

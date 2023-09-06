@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:news_app/services/global_methods.dart';
-import 'package:news_app/services/utils.dart';
-import 'package:news_app/widgets/vertical_spacing.dart';
+import 'package:newzy/services/global_methods.dart';
+import 'package:newzy/services/utils.dart';
+import 'package:newzy/widgets/vertical_spacing.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
